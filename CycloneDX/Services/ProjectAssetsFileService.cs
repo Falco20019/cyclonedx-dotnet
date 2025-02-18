@@ -98,7 +98,11 @@ namespace CycloneDX.Services
         }
         public bool SetIsDevDependency(LibraryDependency dependency)
         {
-            return dependency != null && dependency.SuppressParent != LibraryIncludeFlagUtils.DefaultSuppressParent;
+            return dependency != null
+                   && !(dependency.SuppressParent.HasFlag(LibraryIncludeFlags.Compile)
+                        || dependency.SuppressParent.HasFlag(LibraryIncludeFlags.Runtime)
+                        || dependency.SuppressParent.HasFlag(LibraryIncludeFlags.ContentFiles)
+                        || dependency.SuppressParent.HasFlag(LibraryIncludeFlags.Native));
         }
 
         /// <summary>
